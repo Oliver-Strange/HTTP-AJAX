@@ -10,6 +10,7 @@ function FriendsList(props) {
                     <h1>{friend.name}</h1>
                     <h2>{friend.age}</h2>
                     <p>{friend.email}</p>
+                    <button>Update Info</button>
                     <button>Remove Friend</button>
                 </StyledFriend>
             ))}

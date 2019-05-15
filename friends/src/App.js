@@ -11,6 +11,12 @@ class App extends React.Component {
     super();
     this.state = {
       friends: [],
+      friend: {
+        id: '',
+        name: '',
+        age: '',
+        email: '',
+      },
       message: ''
     };
   }
@@ -27,6 +33,21 @@ class App extends React.Component {
         message: "Data fetching failed!"
       });
     });
+
+    // formHandler = (event) => {
+    //   event.preventDefault();
+      
+    // }
+
+    // addNewFriend = (event) => {
+    //   event.preventDefault();
+
+    // }
+
+    // deleteFriend = (event) => {
+    //   event.preventDefault();
+
+    // }
   }
 
   render() {
