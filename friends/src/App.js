@@ -1,13 +1,40 @@
-import React from 'react';
+import React from "react";
+import axios from "axios";
+import FriendsList from './Components/FriendsList';
 
-import './App.css';
+import "./App.css";
 
-function App() {
-  return (
-    <div className="App">
-      
-    </div>
-  );
+class App extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      friends: [],
+      message: ''
+    };
+  }
+
+  componentDidMount() {
+    axios.get('http://localhost:5000/friends')
+    .then(res => {
+      console.log(res.data); 
+      this.setState({ friends: res.data})
+    })
+    .catch(err => {
+      console.log(err);
+      this.setState({
+        message: "Data fetching failed!"
+      });
+    });
+  }
+
+  render() {
+    console.log(this.state.message)
+    return (
+      <div className="App">
+        <FriendsList friends={this.state.friends} />
+      </div>
+    );
+  }
 }
 
 export default App;
