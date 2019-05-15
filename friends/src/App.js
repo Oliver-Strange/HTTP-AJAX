@@ -1,6 +1,8 @@
 import React from "react";
 import axios from "axios";
 import FriendsList from './Components/FriendsList';
+import FriendForm from './Components/FriendForm';
+
 
 import "./App.css";
 
@@ -31,10 +33,14 @@ class App extends React.Component {
     console.log(this.state.message)
     return (
       <div className="App">
+        <FriendForm />
         <FriendsList friends={this.state.friends} />
+        
       </div>
     );
   }
 }
+
+
 
 export default App;

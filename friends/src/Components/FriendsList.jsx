@@ -1,17 +1,43 @@
 import React from 'react';
+import styled from "styled-components";
+
 
 function FriendsList(props) {
     return (
-        <div className='fLWrapper' >
+        <StyledFriendWrapper>
             {props.friends.map(friend => (
-                <div className='friend' key={friend.id}>
+                <StyledFriend key={friend.id}>
                     <h1>{friend.name}</h1>
                     <h2>{friend.age}</h2>
                     <p>{friend.email}</p>
-                </div>
+                    <button>Remove Friend</button>
+                </StyledFriend>
             ))}
-        </div>
+        </StyledFriendWrapper>
     )
 }
+
+const StyledFriendWrapper = styled.div`
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap: wrap;
+    
+`;
+
+const StyledFriend = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+
+    h1 {
+        margin: 5px auto;
+    }
+
+    h2 {
+        margin 5px auto;
+    }
+`
 
 export default FriendsList;
