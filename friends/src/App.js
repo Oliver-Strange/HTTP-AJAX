@@ -1,77 +1,150 @@
 import React from "react";
+import { Route, NavLink } from "react-router-dom";
 import axios from "axios";
-import FriendsList from './Components/FriendsList';
-import FriendForm from './Components/FriendForm';
-import styled from 'styled-components';
 
+import Home from "./Components/Home";
+import FriendsList from "./Components/FriendsList";
+import Friend from "./Components/Friend";
+import FriendForm from "./Components/FriendForm";
 
+import styled from "styled-components";
 import "./App.css";
 
 class App extends React.Component {
   constructor() {
     super();
     this.state = {
+      activeFriend: null,
       friends: [],
       friend: {
-        id: '',
-        name: '',
-        age: '',
-        email: '',
+        name: "",
+        age: "",
+        email: ""
       },
-      message: ''
+      message: ""
     };
   }
 
   componentDidMount() {
-    axios.get('http://localhost:5000/friends')
-    .then(res => {
-      console.log(res.data); 
-      this.setState({ friends: res.data})
-    })
-    .catch(err => {
-      console.log(err);
-      this.setState({
-        message: "Data fetching failed!"
+    axios
+      .get("http://localhost:5000/friends")
+      .then(res => {
+        console.log(res.data);
+        this.setState({ friends: res.data });
+      })
+      .catch(err => {
+        console.log(err);
+        this.setState({ message: "Data fetching failed!" });
       });
-    });
-
-    // formHandler = (event) => {
-    //   event.preventDefault();
-      
-    // }
-
-    // addNewFriend = (event) => {
-    //   event.preventDefault();
-
-    // }
-
-    // deleteFriend = (event) => {
-    //   event.preventDefault();
-
-    // }
   }
 
+  addNewFriend = friend => {
+    axios
+      .post("http://localhost:5000/friends", friend)
+      .then(res => {
+        this.setState({
+          friends: res.data
+        });
+        this.props.history.push("/friends-list");
+      })
+      .catch(err => console.log(err));
+  };
+
+  deleteFriend = id => {
+    axios
+      .delete(`http://localhost:5000/friends/${id}`)
+      .then(res => {
+        this.setState({
+          friends: res.data
+        });
+        this.props.history.push("/friends-list");
+      })
+      .then(err => console.log(err));
+  };
+
+  populateFriendForm = friend => {
+    this.setState({
+      activeFriend: friend
+    });
+    this.props.history.push("/friend-form");
+  };
+
+  updateFriendForm = friend => {
+    axios
+      .put(`http://localhost:5000/friends/${friend.id}`, friend)
+      .then(res => {
+        this.setState({
+          activeFriend: null,
+          friends: res.data
+        });
+        this.props.history.push("/friends-list");
+      })
+      .then(err => console.log(err));
+  };
+
   render() {
-    console.log(this.state.message)
+    console.log(this.state.message);
     return (
       <div className="App">
-        <StyledHeader>
-          <FriendForm />
-          <h1>友達</h1>
-        </StyledHeader>
-        
-        <FriendsList friends={this.state.friends} />
-        
+        <StyledContainer>
+          <StyledNav>
+            <h1>Friends!</h1>
+            <StyledNavLink to="/friend-form">Add friend</StyledNavLink>
+            <StyledNavLink exact to="/">
+              Home
+            </StyledNavLink>
+            <StyledNavLink to="/friends-list">Friend list</StyledNavLink>
+          </StyledNav>
+          <Route exact path="/" component={Home} />
+          <Route
+            exact
+            path="/friends-list"
+            render={props => (
+              <FriendsList {...props} friends={this.state.friends} />
+            )}
+          />
+          <Route
+            path="/friends-list/:id"
+            render={props => (
+              <Friend
+                {...props}
+                friends={this.state.friends}
+                deleteFriend={this.deleteFriend}
+                populateFriendForm={this.populateFriendForm}
+              />
+            )}
+          />
+          <Route
+            path="/friend-form"
+            render={props => (
+              <FriendForm
+                {...props}
+                addFriend={this.addNewFriend}
+                activeFriend={this.state.activeFriend}
+                updateFriendForm={this.updateFriendForm}
+              />
+            )}
+          />
+        </StyledContainer>
       </div>
     );
   }
 }
 
-const StyledHeader = styled.div`
+const StyledContainer = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-`
+`;
+
+const StyledNav = styled.nav`
+  display: flex;
+  flex-direction: row;
+`;
+
+const StyledNavLink = styled(NavLink)`
+  margin: 20px;
+`;
 
 export default App;
