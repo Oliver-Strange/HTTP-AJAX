@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import FriendsList from './Components/FriendsList';
 import FriendForm from './Components/FriendForm';
+import styled from 'styled-components';
 
 
 import "./App.css";
@@ -54,7 +55,11 @@ class App extends React.Component {
     console.log(this.state.message)
     return (
       <div className="App">
-        <FriendForm />
+        <StyledHeader>
+          <FriendForm />
+          <h1>友達</h1>
+        </StyledHeader>
+        
         <FriendsList friends={this.state.friends} />
         
       </div>
@@ -62,6 +67,11 @@ class App extends React.Component {
   }
 }
 
-
+const StyledHeader = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+`
 
 export default App;
