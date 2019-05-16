@@ -89,11 +89,11 @@ class App extends React.Component {
         <StyledContainer>
           <StyledNav>
             <h1>Friends!</h1>
-            <StyledNavLink to="/friend-form">Add friend</StyledNavLink>
-            <StyledNavLink exact to="/">
-              Home
-            </StyledNavLink>
-            <StyledNavLink to="/friends-list">Friend list</StyledNavLink>
+            <div>
+              <StyledNavLink exact to="/">Home</StyledNavLink>
+              <StyledNavLink to="/friends-list">Friend list</StyledNavLink>
+              <StyledNavLink to="/friend-form">Add friend</StyledNavLink>
+            </div>
           </StyledNav>
           <Route exact path="/" component={Home} />
           <Route
@@ -136,15 +136,23 @@ const StyledContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 100%;
 `;
 
 const StyledNav = styled.nav`
   display: flex;
+  width: 90%;
   flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid black;
+
 `;
 
 const StyledNavLink = styled(NavLink)`
   margin: 20px;
+  text-decoration: none;
+  color: black;
 `;
 
 export default App;

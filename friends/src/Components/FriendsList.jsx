@@ -22,7 +22,7 @@ function FriendsList(props) {
 
 const StyledFriendWrapper = styled.div`
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     flex-direction: row;
     flex-wrap: wrap;
     
@@ -31,8 +31,13 @@ const StyledFriendWrapper = styled.div`
 const StyledFriend = styled.div`
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
     margin: 20px;
+    height: 150px;
+    width: 250px;
+    border: 1px solid grey;
+    box-shadow: 0 0 7px 1px black; 
 
     h1 {
         margin: 5px auto;
